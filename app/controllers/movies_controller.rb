@@ -5,20 +5,15 @@ class MoviesController < ApplicationController
     @movie = Movie.find(id) # look up movie by unique ID
     # will render app/views/movies/show.<extension> by default
   end
-
+  
   def index
-    @all_ratings = Movie.order(:rating).select(:rating).map(&:rating).uniq
-    @checked_ratings = check
-    @checked_ratings.each do |rating|
-      params[rating] = true
-    end
-
     if params[:sort]
       @movies = Movie.order(params[:sort])
     else
-      @movies = Movie.where(:rating => @checked_ratings)
+      @movies = Movie.all
     end
   end
+
 
   def new
     # default: render 'new' template
